@@ -1,0 +1,25 @@
+{
+  "name": "rdv2022",
+  "version": "1.0.0",
+  "description": "Hackathon Project",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.18.1",
+    "socket.io": "^4.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Haseebk0678/rdv2022.git"
+  },
+  "author": "Haseeb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Haseebk0678/rdv2022/issues"
+  },
+  "homepage": "https://github.com/Haseebk0678/rdv2022#readme"
+}

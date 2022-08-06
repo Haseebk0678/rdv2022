@@ -31,6 +31,7 @@ async () => {
 }
 
 // Run when client connects
+
 io.on("connection", (socket) => {
   console.log(io.of("/").adapter);
   socket.on("joinRoom", ({ username, room }) => {

@@ -14,25 +14,25 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`)
 })
-// // make connection with user from server side
-// io.on('connection', (socket)=>{
-// console.log('New user connected');
-// //emit message from server to user
-// socket.emit('newMessage', {
-// 	from:'jen@mds',
-// 	text:'hepppp',
-// 	createdAt:123
-// });
+// make connection with user from server side
+io.on('connection', (socket)=>{
+console.log('New user connected');
+//emit message from server to user
+socket.emit('newMessage', {
+	from:'jen@mds',
+	text:'hepppp',
+	createdAt:123
+});
 
-// // listen for message from user
-// socket.on('createMessage', (newMessage)=>{
-// 	console.log('newMessage', newMessage);
-// });
+// listen for message from user
+socket.on('createMessage', (newMessage)=>{
+	console.log('newMessage', newMessage);
+});
 
-// // when server disconnects from user
-// socket.on('disconnect', ()=>{
-// 	console.log('disconnected from user');
-// });
-// });
+// when server disconnects from user
+socket.on('disconnect', ()=>{
+	console.log('disconnected from user');
+});
+});
 
-// server.listen(port);
+server.listen(port);

@@ -9,3 +9,7 @@ After cloning the project run
 npm install
 ```
 OR
+```
+npm i
+```
+

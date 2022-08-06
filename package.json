@@ -4,18 +4,20 @@
   "description": "Hackathon Project",
   "main": "app.js",
   "dependencies": {
-    "bootstrap": "^5.2.0",
-    "express": "^4.18.1",
-    "moment": "^2.29.4",
-    "socket.io": "^4.5.1"
+    "@socket.io/redis-adapter": "^7.1.0",
+    "dotenv": "^14.3.2",
+    "express": "^4.17.1",
+    "moment": "^2.24.0",
+    "redis": "^4.0.2",
+    "socket.io": "^4.4.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",

@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
     socket.join(user.room);
 
     // Welcome current user
-    socket.emit("message", formatMessage(botName, "Welcome to ChatCord!"));
+    socket.emit("message", formatMessage(botName, "Welcome to TextLingo!"));
 
     // Broadcast when a user connects
     socket.broadcast

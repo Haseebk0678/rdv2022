@@ -36,8 +36,8 @@ async () => {
 
 io.on("connection", (socket) => {
   console.log(io.of("/").adapter);
-  socket.on("joinRoom", ({ username, room }) => {
-    const user = userJoin(socket.id, username, room);
+  socket.on("joinRoom", ({ username, room, topic}) => {
+    const user = userJoin(socket.id, username, room, topic);
 
     socket.join(user.room);
 
@@ -56,6 +56,7 @@ io.on("connection", (socket) => {
     io.to(user.room).emit("roomUsers", {
       room: user.room,
       users: getRoomUsers(user.room),
+      topic: user.topic,
     });
   });
 
@@ -80,6 +81,7 @@ io.on("connection", (socket) => {
       io.to(user.room).emit("roomUsers", {
         room: user.room,
         users: getRoomUsers(user.room),
+        topic: user.topic,
       });
     }
   });

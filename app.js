@@ -26,12 +26,14 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-// Set static folder
 app.use(express.static(path.join(__dirname, "public")));
 
 const botName = "Debate Bot";
 // Reference
 // https://socket.io/get-started/chat
+// https://github.com/bradtraversy/chatcord
+// Wanted to add debate feature by giving question and then also 
+// helping people learn language by using a language detector but an error was being thrown for that
 
 async () => {
   pubClient = createClient({ url: "redis://127.0.0.1:6379" });
@@ -43,7 +45,7 @@ async () => {
 // Run when client connects
 
 io.on("connection", (socket) => {
-  console.log(io.of("/").adapter);
+  // console.log(io.of("/").adapter);
 
   socket.on("joinRoom", ({ username, room, topic}) => {
     const user = userJoin(socket.id, username, room, topic);
@@ -71,19 +73,10 @@ io.on("connection", (socket) => {
 
   socket.on("chatMessage", (msg) => {
     // console.log("Message from App js")
-    console.log(msg)
-
-
-    /// ????? emit to main js??
-    
-    
     const user = getCurrentUser(socket.id);
-    console.log(lngDetector.detect(msg,3));
-    console.log(user.room)
+    
 
-
-
-    io.to(user.room).emit("message", formatMessage(user.username, msg));
+    io.to(user.room).emit("message", formatMessage(user.username, msg.msg));
   });
 
   // Runs when client disconnects

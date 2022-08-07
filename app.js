@@ -44,13 +44,14 @@ async () => {
 
 io.on("connection", (socket) => {
   console.log(io.of("/").adapter);
-  socket.on("joinRoom", ({ username, room }) => {
-    const user = userJoin(socket.id, username, room);
-    // console.log("User Room: ");
+
+  socket.on("joinRoom", ({ username, room, topic}) => {
+    const user = userJoin(socket.id, username, room, topic);
+
     socket.join(user.room);
 
     // Welcome current user
-    socket.emit("message", formatMessage(botName, "Welcome to ChatCord!"));
+    socket.emit("message", formatMessage(botName, "Welcome to Debattle!"));
 
     // Broadcast when a user connects
     socket.broadcast
@@ -64,6 +65,7 @@ io.on("connection", (socket) => {
     io.to(user.room).emit("roomUsers", {
       room: user.room,
       users: getRoomUsers(user.room),
+      topic: user.topic,
     });
   });
 
@@ -98,6 +100,7 @@ io.on("connection", (socket) => {
       io.to(user.room).emit("roomUsers", {
         room: user.room,
         users: getRoomUsers(user.room),
+        topic: user.topic,
       });
     }
   });

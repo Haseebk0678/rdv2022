@@ -9,6 +9,8 @@ function userJoin(id, username, room, topic) {
   return user;
 }
 
+// function getUsersRoom()
+
 // Get current user
 function getCurrentUser(id) {
   return users.find(user => user.id === id);

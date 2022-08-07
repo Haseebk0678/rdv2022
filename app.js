@@ -6,6 +6,14 @@ const formatMessage = require("./utils/messages");
 const createAdapter = require("@socket.io/redis-adapter").createAdapter;
 const redis = require("redis");
 require("dotenv").config();
+
+
+// testing language detector
+const LanguageDetect = require('languagedetect');
+const lngDetector = new LanguageDetect();
+
+
+
 const { createClient } = redis;
 const {
   userJoin,
@@ -36,6 +44,7 @@ async () => {
 
 io.on("connection", (socket) => {
   console.log(io.of("/").adapter);
+
   socket.on("joinRoom", ({ username, room, topic}) => {
     const user = userJoin(socket.id, username, room, topic);
 
@@ -60,9 +69,19 @@ io.on("connection", (socket) => {
     });
   });
 
-  // Listen for chatMessage
   socket.on("chatMessage", (msg) => {
+    // console.log("Message from App js")
+    console.log(msg)
+
+
+    /// ????? emit to main js??
+    
+    
     const user = getCurrentUser(socket.id);
+    console.log(lngDetector.detect(msg,3));
+    console.log(user.room)
+
+
 
     io.to(user.room).emit("message", formatMessage(user.username, msg));
   });

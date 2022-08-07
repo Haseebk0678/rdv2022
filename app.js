@@ -71,19 +71,9 @@ io.on("connection", (socket) => {
 
   socket.on("chatMessage", (msg) => {
     // console.log("Message from App js")
-    console.log(msg)
-
-
-    /// ????? emit to main js??
-    
-    
     const user = getCurrentUser(socket.id);
-    console.log(lngDetector.detect(msg,3));
-    console.log(user.room)
-
-
-
-    io.to(user.room).emit("message", formatMessage(user.username, msg));
+  
+    io.to(user.room).emit("message", formatMessage(user.username, msg.msg));
   });
 
   // Runs when client disconnects

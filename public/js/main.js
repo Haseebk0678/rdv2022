@@ -2,6 +2,8 @@ const chatForm = document.getElementById('chat-form');
 const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
+const lngDetector = new (require('languagedetect'));
+
 
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
@@ -18,7 +20,6 @@ socket.on('roomUsers', ({ room, users }) => {
   outputRoomName(room);
   outputUsers(users);
 });
-
 // Message from server
 socket.on('message', (message) => {
   console.log(message);
@@ -42,8 +43,16 @@ chatForm.addEventListener('submit', (e) => {
   }
 
   // Emit message to server
-  socket.emit('chatMessage', msg);
+  // Check message Confidence HERE
+  // let languageDetected = lngDetector.detect('This is a test.', 1)[0][0];
+  // let confidenceI = lngDetector.detect('This is a test.', 1)[0][1];
+ // if(confidenceI > .5){
+  //   socket.emit('chatMessage', msg);
+  // }else{
+  //   socket.emit('chatMessage', `Can not detect language`)
+  // }
 
+  socket.emit('chatMessage', msg);
   // Clear input
   e.target.elements.msg.value = '';
   e.target.elements.msg.focus();

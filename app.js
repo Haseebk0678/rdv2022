@@ -6,14 +6,6 @@ const formatMessage = require("./utils/messages");
 const createAdapter = require("@socket.io/redis-adapter").createAdapter;
 const redis = require("redis");
 require("dotenv").config();
-
-
-// testing language detector
-const LanguageDetect = require('languagedetect');
-const lngDetector = new LanguageDetect();
-
-
-
 const { createClient } = redis;
 const {
   userJoin,
@@ -29,9 +21,7 @@ const io = socketio(server);
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")));
 
-const botName = "Debate Bot";
-// Reference
-// https://socket.io/get-started/chat
+const botName = "ChatCord Bot";
 
 async () => {
   pubClient = createClient({ url: "redis://127.0.0.1:6379" });
@@ -41,17 +31,15 @@ async () => {
 }
 
 // Run when client connects
-
 io.on("connection", (socket) => {
-  // console.log(io.of("/").adapter);
-
-  socket.on("joinRoom", ({ username, room, topic}) => {
-    const user = userJoin(socket.id, username, room, topic);
+  console.log(io.of("/").adapter);
+  socket.on("joinRoom", ({ username, room }) => {
+    const user = userJoin(socket.id, username, room);
 
     socket.join(user.room);
 
     // Welcome current user
-    socket.emit("message", formatMessage(botName, "Welcome to Debattle!"));
+    socket.emit("message", formatMessage(botName, "Welcome to ChatCord!"));
 
     // Broadcast when a user connects
     socket.broadcast
@@ -65,15 +53,14 @@ io.on("connection", (socket) => {
     io.to(user.room).emit("roomUsers", {
       room: user.room,
       users: getRoomUsers(user.room),
-      topic: user.topic,
     });
   });
 
+  // Listen for chatMessage
   socket.on("chatMessage", (msg) => {
-    // console.log("Message from App js")
     const user = getCurrentUser(socket.id);
-  
-    io.to(user.room).emit("message", formatMessage(user.username, msg.msg));
+
+    io.to(user.room).emit("message", formatMessage(user.username, msg));
   });
 
   // Runs when client disconnects
@@ -90,19 +77,11 @@ io.on("connection", (socket) => {
       io.to(user.room).emit("roomUsers", {
         room: user.room,
         users: getRoomUsers(user.room),
-        topic: user.topic,
       });
     }
   });
 });
 
-
-app.use("/public", express.static(__dirname + "/public"))
-
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-})
-
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

@@ -1,23 +1,21 @@
 const chatForm = document.getElementById('chat-form');
 const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
-const topicName = document.getElementById("topic-name")
 const userList = document.getElementById('users');
 
 // Get username and room from URL
-const { username, room, topic} = Qs.parse(location.search, {
+const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 });
 
 const socket = io();
 
 // Join chatroom
-socket.emit('joinRoom', { username, room, topic});
+socket.emit('joinRoom', { username, room });
 
-// Get room, users,topicname
-socket.on('roomUsers', ({ room, users, topic}) => {
+// Get room and users
+socket.on('roomUsers', ({ room, users }) => {
   outputRoomName(room);
-  outputTopic(topic)
   outputUsers(users);
 });
 
@@ -42,10 +40,9 @@ chatForm.addEventListener('submit', (e) => {
   if (!msg) {
     return false;
   }
-  
 
   // Emit message to server
-  socket.emit('chatMessage', {msg});
+  socket.emit('chatMessage', msg);
 
   // Clear input
   e.target.elements.msg.value = '';
@@ -59,7 +56,7 @@ function outputMessage(message) {
   const p = document.createElement('p');
   p.classList.add('meta');
   p.innerText = message.username;
-  p.innerHTML += `<span> ${message.time}</span>`;
+  p.innerHTML += `<span>${message.time}</span>`;
   div.appendChild(p);
   const para = document.createElement('p');
   para.classList.add('text');
@@ -71,10 +68,6 @@ function outputMessage(message) {
 // Add room name to DOM
 function outputRoomName(room) {
   roomName.innerText = room;
-}
-
-function outputTopic(topic) {
-  topicName.innerText = topic;
 }
 
 // Add users to DOM

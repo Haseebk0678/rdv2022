@@ -12,6 +12,8 @@ OR
 ```
 npm i
 ```
+To deploy the server run
 
-
-
+```
+npm run build
+```
